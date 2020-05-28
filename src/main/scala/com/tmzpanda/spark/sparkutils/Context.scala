@@ -12,6 +12,7 @@ trait Context {
     .setMaster("local[*]")
     .set("spark.cores.max", "2")
 
+
   lazy val sparkSession: SparkSession = SparkSession
     .builder()
     .config(sparkConf)

@@ -6,7 +6,7 @@ package com.tmzpanda.spark.sparksql
 import com.tmzpanda.spark.sparkutils.Context
 
 
-object DataFrame_Operation extends App with Context {
+object DataFrame_SQL extends App with Context {
 
 
   // Create a DataFrame from reading a CSV file
@@ -191,8 +191,6 @@ object DataFrame_Operation extends App with Context {
       $"tmp".getItem(1).as("so_tag")
     ).drop("tmp")
   dfSplitColumn.show(10)
-
-
 
 
   sparkSession.stop()
