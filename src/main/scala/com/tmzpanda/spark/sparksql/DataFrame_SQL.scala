@@ -82,8 +82,9 @@ object DataFrame_SQL extends App with Context {
 
   dfQuestionsCSV.printSchema()
 
+  import sparkSession.implicits._
   val dfQuestions = dfQuestionsCSV.select(
-    dfQuestionsCSV.col("id").cast("integer"),
+    $"id".cast("integer"),
     dfQuestionsCSV.col("creation_date").cast("timestamp"),
     dfQuestionsCSV.col("closed_date").cast("timestamp"),
     dfQuestionsCSV.col("deletion_date").cast("date"),

@@ -28,7 +28,7 @@ object DataFrame_Functions extends App with Context {
 
 
   // Split DataFrame Array column
-  import sparkSession.sqlContext.implicits._
+  import sparkSession.implicits._
   val donutsDFSplit = donutsDF
     .select(
       $"Donut Name",
@@ -55,7 +55,7 @@ object DataFrame_Functions extends App with Context {
 
   // Append column to DataFrame using withColumn()
   // DataFrame new column with User Defined Function (UDF)
-  val stockMinMax: (String => Seq[Int]) = {
+  val stockMinMax: String => Seq[Int] = {
     case "Plain Donut" => Seq(100, 500)
     case "Vanilla Donut" => Seq(200, 400)
     case "Glazed Donut" => Seq(300, 600)
@@ -105,8 +105,6 @@ object DataFrame_Functions extends App with Context {
     .json("src/main/resources/tags_sample.json")
 
   import org.apache.spark.sql.functions._
-  import sparkSession.sqlContext.implicits._
-
   val tagsDFExploded = tagsDFJSON.select(explode($"stackoverflow") as "stackoverflow_tags")
   tagsDFExploded.show()
   tagsDFExploded.printSchema()

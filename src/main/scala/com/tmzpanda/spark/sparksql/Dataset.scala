@@ -47,23 +47,19 @@ object Dataset extends App with Context {
 
   // create a function which will parse each element in the row
   def toQuestion(row: org.apache.spark.sql.Row): Question = {
-    // to normalize our owner_user_id data
-    val IntOf: String => Option[Int] = {
-      case s if s == "NA" => None
-      case s => Some(s.toInt)
-    }
+    // to normalize owner_user_id data
+    val IntOf: String => Option[Int] = {        //    def IntOf(s: String): Option[Int] = s match {
+      case s if s == "NA" => None               //      case "NA" => None
+      case s => Some(s.toInt)                   //      case _ => Some(s.toInt)
+    }                                           //    }
 
-//    def IntOf(s: String): Option[Int] = s match {
-//      case "NA" => None
-//      case _ => Some(s.toInt)
-//    }
-
-
+    // to normalize creationDate data
     import java.time._
     val DateOf: String => java.sql.Timestamp = {
       s => java.sql.Timestamp.valueOf(ZonedDateTime.parse(s).toLocalDateTime)
     }
 
+    // return Question case class
     Question (
       owner_user_id = IntOf(row.getString(0)).getOrElse(-1),
       tag = row.getString(1),
